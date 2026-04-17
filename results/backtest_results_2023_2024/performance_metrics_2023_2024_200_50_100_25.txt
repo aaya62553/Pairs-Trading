@@ -1,0 +1,12 @@
+Total Return: 0    1.091101
+Name: Total Return, dtype: float64
+Annualized Return: 0    0.396192
+Name: Annualized Return, dtype: float64
+Annualized Volatility: 0    0.232448
+Name: Annualized Volatility, dtype: float64
+Sharpe Ratio: 0    1.704433
+Name: Sharpe Ratio, dtype: float64
+Max Drawdown: 0    0.339037
+Name: Max Drawdown, dtype: float64
+Mean Days in Trade: 0    16.463196
+Name: Mean Days in Trade, dtype: float64
