@@ -4,35 +4,6 @@ from datetime import datetime
 import os
 import pandas as pd
 import pandas_market_calendars as mcal
-import numpy as np
-import statsmodels.api as sm
-
-def compute_half_life(spread):
-    """
-    Calcule la demi-vie d'un spread à partir d'un modèle OLS.
-    """
-    spread_lag = spread.shift(1).dropna()
-    spread_diff = spread.diff().dropna()
-    df = pd.concat([spread_lag, spread_diff], axis=1)
-    if df.empty:
-        return np.nan
-        
-    df.columns = ['spread_lag', 'spread_diff']
-    X = df['spread_lag']
-    X = sm.add_constant(X)
-    y = df['spread_diff']
-    
-    try:
-        model = sm.OLS(y, X).fit()
-        lambda_param = model.params.iloc[1]
-        
-        if lambda_param >= 0 or lambda_param == 0:
-            return np.inf
-        
-        half_life = -np.log(2) / lambda_param
-        return half_life
-    except Exception:
-        return np.nan
 
 def get_data_from_cache(ticker, start_date, end_date, cache_dir="data_cache"):
   
