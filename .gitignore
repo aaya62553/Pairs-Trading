@@ -1,2 +1,3 @@
-__pycache__
+__pycache__/
 s&p500.csv
+.vscode/

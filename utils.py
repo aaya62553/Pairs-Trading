@@ -5,6 +5,30 @@ import os
 import pandas as pd
 import pandas_market_calendars as mcal
 
+import numpy as np
+import statsmodels.api as sm
+
+def get_half_life(spread):
+    spread_lag = spread.shift(1).dropna()
+    spread_ret = spread.diff().dropna()
+    spread_lag = spread_lag.loc[spread_ret.index]
+    
+    if len(spread_ret) < 30:
+        return 22
+        
+    X = sm.add_constant(spread_lag)
+    try:
+        model = sm.OLS(spread_ret, X).fit()
+        gamma = model.params.iloc[1]
+        
+        if gamma >= -1e-8:
+            return 22
+            
+        hl = -np.log(2) / gamma
+        return max(1, int(hl))
+    except (ValueError, Exception):
+        return 22
+
 def get_data_from_cache(ticker, start_date, end_date, cache_dir="data_cache"):
   
     if not os.path.isdir(cache_dir):
